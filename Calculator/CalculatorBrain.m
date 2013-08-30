@@ -7,6 +7,7 @@
 //
 
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
 
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
@@ -40,8 +41,8 @@
     return @"This is a calculator";
 }
 
-- (void)pushOperand:(double)operand {
-    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
+- (void)pushOperand:(NSObject *)operand {
+    [self.programStack addObject:operand];
 }
 
 - (double)popOperand {
@@ -89,11 +90,17 @@
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     
+    //NSNumber *topOfStackNumber = [[NSNumber alloc] initWithDouble:[topOfStack doubleValue]];
+    
+        
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
         result = [topOfStack doubleValue];
     }
     else if ([topOfStack isKindOfClass:[NSString class]]) {
         NSString *operation = topOfStack;
+        if ([topOfStack isEqualToString:@"x"]) {
+            topOfStack = [[NSNumber alloc] initWithDouble:9.0];
+        }
         if([operation isEqualToString:@"+"]) {
             //[self.equationQueue addObject:@"+"];
             
@@ -106,6 +113,14 @@
         } else if ([operation isEqualToString:@"/"]) {
             double divisor = [self popOperandOffProgramStack:stack];
             if (divisor) result = [self popOperandOffProgramStack:stack] / divisor;
+        } else if ([operation isEqualToString:@"sin"]) {
+            result = sin([self popOperandOffProgramStack:stack]);
+        } else if ([operation isEqualToString:@"cos"]) {
+            result = cos([self popOperandOffProgramStack:stack]);
+        } else if ([operation isEqualToString:@"tan"]) {
+            result = tan([self popOperandOffProgramStack:stack]);
+        } else if ([operation isEqualToString:@"sqrt"]) {
+            result = sqrt([self popOperandOffProgramStack:stack]);
         }
     }
     

@@ -10,7 +10,7 @@
 
 @interface CalculatorBrain : NSObject
 
-- (void)pushOperand:(double)operand;
+- (void)pushOperand:(NSObject *)operand;
 - (double)performOperation:(NSString *)operation;
 - (void)addValueToQueue:(NSString *)value;
 - (NSString *)getEquationQueue:(bool)operatorPressed;
@@ -18,8 +18,10 @@
 - (void)clearEquationQueue;
 
 @property (nonatomic, readonly) id program;
+@property (nonatomic, readonly) NSMutableArray *programStack;
 
 + (NSString *)descriptionOfProgram:(id)program;
 + (double)runProgram:(id)program;
++ (double)popOperandOffProgramStack:(NSMutableArray *)stack;
 
 @end
